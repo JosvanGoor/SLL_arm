@@ -1,8 +1,0 @@
-prefix=/home/student/catkin_ws/install
-
-Name: moveit_tutorials
-Description: Description of moveit_tutorials
-Version: 0.1.0
-Cflags: 
-Libs: -L/home/student/catkin_ws/install/lib 
-Requires: moveit_core moveit_ros_planning_interface interactive_markers

@@ -1,0 +1,38 @@
+#Python pyc
+*.pyc
+
+#Hidden files
+.*
+!.gitignore
+#temp files
+
+*.*~
+*~
+
+#C++ object files
+*.o
+
+#Catkin generated files
+catkin_ws_example/build
+catkin_ws_example/build_isolated
+catkin_ws_example/devel
+catkin_ws_example/devel_isolated
+
+#Obstacle avoidance Calibration files
+*.cal
+
+#Log files
+*.log
+
+#LaTeX generated files
+*.toc
+*.aux
+*.nav
+*.snm
+
+#orig nad backup files
+*.orig
+*.backup
+
+#Doxygen generated files
+docs/doxygen/

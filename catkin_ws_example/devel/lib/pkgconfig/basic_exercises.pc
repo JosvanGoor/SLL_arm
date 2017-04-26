@@ -1,8 +1,0 @@
-prefix=/home/student/catkin_ws/devel
-
-Name: basic_exercises
-Description: Description of basic_exercises
-Version: 0.0.0
-Cflags: -I/home/student/catkin_ws/devel/include
-Libs: -L/home/student/catkin_ws/devel/lib 
-Requires: 
