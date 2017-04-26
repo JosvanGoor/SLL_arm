@@ -1,0 +1,2 @@
+basic_exercises:moveit_tutorials-indigo-devel
+-DCATKIN_DEVEL_PREFIX=/home/student/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/student/catkin_ws/install -G Unix Makefiles

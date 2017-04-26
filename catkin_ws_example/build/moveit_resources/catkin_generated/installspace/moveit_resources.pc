@@ -1,0 +1,8 @@
+prefix=/home/student/catkin_ws/install
+
+Name: moveit_resources
+Description: Description of moveit_resources
+Version: 0.6.2
+Cflags: -I/home/student/catkin_ws/install/include
+Libs: -L/home/student/catkin_ws/install/lib 
+Requires: 

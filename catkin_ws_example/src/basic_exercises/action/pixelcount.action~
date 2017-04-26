@@ -1,0 +1,5 @@
+sensor_msgs/Image rgb
+sensor_msgs/Image grey
+---
+---
+int32 count
