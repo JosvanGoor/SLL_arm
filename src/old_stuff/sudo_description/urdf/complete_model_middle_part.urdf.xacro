@@ -1,0 +1,146 @@
+<robot name="sudo" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- Left bar -->
+<link name="bar_left">
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertial>
+        <mass value="1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale=".04 0.03 0.94" />
+  		</geometry>
+		<material name="black">
+			<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale=".04 0.03 0.94" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for bar left -->
+<gazebo reference="bar_left">
+    <material>Gazebo/Grey</material>
+</gazebo>
+
+<!-- Connection between left bar and bottom box -->
+<joint name="bottom_box_to_bar_left" type="fixed">
+	<origin xyz="0 0.16 0.68" rpy="0 0 0"/>
+	<child link="bar_left"/>
+	<parent link="bottom_box"/>
+</joint>
+
+
+<!-- Emergency button left -->
+<link name="emergency_left">
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertial>
+        <mass value="0.1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.07 0.07" />
+  		</geometry>
+		<material name="black">
+			<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.07 0.07" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for emergency button left -->
+<gazebo reference="emergency_left">
+    <material>Gazebo/FlatBlack</material>
+</gazebo>
+
+<!-- Connection between left emergency button and left bar -->
+<joint name="bar_left to_emergency_left" type="fixed">
+	<origin xyz="0 0.05 0.06" rpy="0 0 0"/>
+	<child link="emergency_left"/>
+	<parent link="bar_left"/>
+</joint>
+
+<!-- Right bar -->
+<link name="bar_right">
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertial>
+        <mass value="1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.03 0.94" />
+  		</geometry>
+		<material name="black">
+			<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.03 0.94" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for bar right -->
+<gazebo reference="bar_right">
+    <material>Gazebo/Grey</material>
+</gazebo>
+
+<!-- Connection between right bar and bottom box -->
+<joint name="bottom_box_to_bar_right" type="fixed">
+	<origin xyz="0 -0.16 0.68" rpy="0 0 0"/>
+	<child link="bar_right"/>
+	<parent link="bottom_box"/>
+</joint>
+
+
+<!-- Emergency button right -->
+<link name="emergency_right">
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertial>
+        <mass value="0.1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.07 0.07" />
+  		</geometry>
+		<material name="black">
+			<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.07 0.07" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for emergency button right -->
+<gazebo reference="emergency_right">
+    <material>Gazebo/FlatBlack</material>
+</gazebo>
+
+<!-- Connection between right emergency button and right bar -->
+<joint name="bar_right to_emergency_right" type="fixed">
+	<origin xyz="0 -0.05 0.06" rpy="0 0 0"/>
+	<child link="emergency_right"/>
+	<parent link="bar_right"/>
+</joint>
+
+</robot>

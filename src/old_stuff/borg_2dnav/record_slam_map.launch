@@ -1,0 +1,39 @@
+<launch>
+	<!-- run p2os to control the pioneer -->
+	<node pkg="p2os_driver" type="p2os" name="p2os">
+		<param name="port" type="string" value="/dev/ttyUSB2" />
+	</node>
+
+	<!-- Run p2os_dashboard -->
+	<node name="p2os_dashboard" pkg="p2os_dashboard" type="p2os_dashboard" />
+
+	<!-- static transform -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="-0.15 0 0.2 -3.141 0 0  base_link laser 100" />    	
+
+	<node pkg="sicktoolbox_wrapper" type="sicklms" name="sicklms_node" >
+		<param name="port" type="string" value="/dev/ttyUSB0" />
+		<param name="baud" type="int" value="38400" />
+	</node>
+
+	<include file="$(find borg_2dnav)/slam_gmapping_p2os.launch" />
+
+	<!-- Run move_base -->
+	<!--node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+		<rosparam file="$(find borg_2dnav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find borg_2dnav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find borg_2dnav)/config/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find borg_2dnav)/config/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find borg_2dnav)/config/base_local_planner_params_local.yaml" command="load" />
+		<param name="navfn/allow_unknown" value="true"/>
+	</node-->
+
+    <node pkg="pr2_teleop" type="teleop_pr2_keyboard" name="spawn_teleop_keyboard" output="screen">
+      <!-- Not for pr2 -->
+      <!--remap from="cmd_vel" to="base_controller/command" /-->
+
+      <param name="walk_vel" value="0.1" />
+      <param name="run_vel" value="0.3" />
+      <param name="yaw_rate" value="0.1" />
+      <param name="yaw_run_rate" value="0.5" />
+    </node>
+</launch>

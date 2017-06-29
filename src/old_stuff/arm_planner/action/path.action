@@ -1,0 +1,11 @@
+# Goal
+Position[] waypoints
+bool left
+bool right
+---
+# Result
+bool correct
+bool eButton
+---
+# Feedback
+bool correct

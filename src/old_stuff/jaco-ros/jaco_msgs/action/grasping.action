@@ -1,0 +1,9 @@
+# Goal
+graspingLocation object
+---
+# Result
+bool correct
+bool eButton
+---
+# Feedback
+bool correct

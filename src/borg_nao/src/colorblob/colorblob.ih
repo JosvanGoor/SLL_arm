@@ -1,0 +1,15 @@
+#include "colorblob.h"
+#include <iostream>
+#include <cv_bridge/cv_bridge.h>
+#include <vector>
+#include <ros/ros.h>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <alice_msgs/MemorySrv.h>
+
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "sensor_msgs/Image.h"
+
+using namespace std;
+

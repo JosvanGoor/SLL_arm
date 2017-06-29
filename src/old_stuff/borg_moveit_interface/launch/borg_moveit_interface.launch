@@ -1,0 +1,13 @@
+<launch>
+	
+	<node pkg="borg_moveit_interface" type="moveit_interface_node" name="moveit_interface_node" output="screen">
+		<param name="group_name" type="string" value="mico_arm"/>
+        <param name="joint_state_topic" type="string" value="/mico_arm_driver/out/joint_state"/>
+        <param name="trajectory_result_topic" type="string" value="/mico_arm_driver/trajectory/result"/>
+        <param name="finger_goal_action_topic" type="string" value="/mico_arm_driver/finger_joint_angles"/>
+		<param name="finger_result_topic" type="string" value="/mico_arm_driver/finger_joint_angles/result"/>
+		<param name="dangerous_pose_action_topic" type="string" value="/mico_arm_driver/arm_pose/arm_pose"/>
+		<param name="dangerous_pose_result_topic" type="string" value="/mico_arm_driver/arm_pose/arm_pose/result"/>
+	</node>
+
+</launch>

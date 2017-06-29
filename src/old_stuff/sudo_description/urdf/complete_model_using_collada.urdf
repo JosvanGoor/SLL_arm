@@ -1,0 +1,9 @@
+<robot name="sudo">
+  <link name="complete_sudo">
+    <visual>
+    <geometry>
+           <mesh filename="/home/sybren/sudo/ros/catkin_ws/src/sudo_description/urdf/complete_model.rounded.dae"/>
+        </geometry>
+    </visual>
+  </link>
+</robot>

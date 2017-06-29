@@ -1,0 +1,25 @@
+<launch>
+    <!-- Run BORG point cloud transform -->   
+        <!-- Run kinect data filter -->
+    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+    <!-- Run a VoxelGrid filter to clean NaNs and downsample the data -->
+    <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+        <remap from="~input" to="/kinect_bottom/depth/points" />
+        <rosparam>
+            filter_field_name: y
+            filter_limit_min: -3.1
+            filter_limit_max: 0.1
+            filter_limit_negative: False
+            leaf_size: 0.01
+        </rosparam>
+    </node>
+	<!-- Run move_base -->
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+		<rosparam file="$(find borg_2dnav)/config_nomap/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find borg_2dnav)/config_nomap/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find borg_2dnav)/config_nomap/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find borg_2dnav)/config_nomap/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find borg_2dnav)/config_nomap/base_local_planner_params_local.yaml" command="load" />
+	</node>
+</launch>

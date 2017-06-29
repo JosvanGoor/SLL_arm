@@ -1,0 +1,43 @@
+<launch>
+    <master auto="start"/>
+    <param name="/use_sim_time" value="true" />
+
+
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find borg_2dnav)/maps/simplehouse.yaml"/>
+
+    <!-- Run the local navigation -->
+	<!--include file="$(find borg_2dnav)/simulation/borg_global_navigation_simulation.launch" /-->
+	
+	<!-- Run the local navigation -->
+	<include file="$(find borg_2dnav)/simulation/borg_global_navigation_simulation.launch" />
+	
+	<!-- Run kinect data filter -->
+      <!--node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" /-->
+
+  <!-- Run a VoxelGrid filter to clean NaNs and downsample the data -->
+  <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+    <remap from="~input" to="/camera/depth/points" />
+    <rosparam>
+      filter_field_name: y
+      filter_limit_min: -2.1
+      filter_limit_max: 0.1
+      filter_limit_negative: False
+      leaf_size: 0.01
+    </rosparam>
+  </node>
+  
+  <!-- Run BORG point cloud transform -->
+    <node pkg="borg_pointcloud" type="transform" name="pointcloud_transform" respawn="true">
+        <param name="x_min" type="double" value="0.10" />
+        <param name="remove_noise" type="bool" value="False" />
+        <param name="input_topic" type="string" value="camera/depth/points" />
+        <param name="output_topic" type="string" value="voxel_grid/output" />
+    </node>
+  
+    <!-- static transform -->
+    <!--node pkg="tf" type="static_transform_publisher" name="base_link_to_camera_link" args="0.13 0 1.62 0 1.24 0.02  base_link camera_link 100" /-->
+   	
+
+</launch>
+

@@ -1,0 +1,140 @@
+<robot name="sudo" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Bottom cube of Sudo-->
+<link name="bottom_box">
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	<inertial>
+        <mass value="10"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.31 0.35 0.42" />
+  		</geometry>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.31 0.35 0.02" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for bottom box -->
+<gazebo reference="bottom_box">
+    <material>Gazebo/FlatBlack</material>
+</gazebo>
+
+<!-- Connection between chassis and bottom rectangular box -->
+<joint name="chassis_to_bottom_box" type="fixed">
+	<!--<origin rpy=" 0 0 0" xyz="0.08 0 0.33"/>-->
+	<origin rpy=" 0 0 0" xyz="0.01 0 0.33"/>
+	<child link="bottom_box"/>
+	<parent link="chassis"/>
+</joint>
+
+
+<!-- The SICK laser. The used model is actually hokuyo -->
+<link name="laser_link">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="10"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/hokuyo/meshes/hokuyo.dae"/>
+  		</geometry>
+	</visual>
+	<collision>
+        <geometry>
+            <mesh filename="package://sudo_description/models/hokuyo/meshes/hokuyo.dae"/>
+        </geometry>
+    </collision>
+</link>
+
+<!-- Connection between chassis and laser-->
+<joint name="chassis_to_laser_link" type="fixed">
+	<!--<origin rpy="0 0 3.14" xyz="-0.2 0 0.15 "/>-->
+	<origin rpy="0 0 3.14" xyz="-0.27 0 0.15 "/>
+	<child link="laser_link"/>
+	<parent link="chassis"/>
+</joint>
+
+
+<!-- Xtion -->
+<link name="xtion_link">
+	<inertial>
+		<mass value="0.200" />
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<inertia ixx="5.8083e-4" ixy="0" ixz="0" iyy="3.0833e-5" iyz="0" izz="5.9083e-4" />
+	</inertial>
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.035 0.18 0.025" />
+  		</geometry>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.035 0.18 0.025" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for xtion -->
+<gazebo reference="xtion_link">
+    <material>Gazebo/FlatBlack</material>
+</gazebo>
+
+<!-- Connection between bottom box and xtion -->
+<joint name="bottom_box_to_xtion" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0.1725 0 0.2175"/>
+	<child link="xtion_link"/>
+	<parent link="bottom_box"/>
+</joint>
+
+
+<!-- Laptop stand -->
+<link name="laptop_stand">
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	<inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.3 0.29 0.05" />
+  		</geometry>
+		<material name="black">
+	    	<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.3 0.29 0.05" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for laptop stand -->
+<gazebo reference="laptop_stand">
+    <material>Gazebo/Grey</material>
+</gazebo>
+
+<!-- Connection between chassis and bottom rectangular box -->
+<joint name="bottom_box_to_laptop_stand" type="fixed">
+	<origin rpy=" 0 -0.52 0" xyz="-0.125 0 0.235"/>
+	<child link="laptop_stand"/>
+	<parent link="bottom_box"/>
+</joint>
+
+</robot>

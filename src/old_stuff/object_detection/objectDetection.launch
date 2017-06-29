@@ -1,0 +1,15 @@
+<launch>
+    <!-- Run kinect -->
+	<!--include file="$(find object_detection)/openniKinect.launch" /-->	
+    
+    <!-- Run Person Detection -->
+    <node pkg="object_detection" type="object_detection_node" name="objectDetector" output="screen"/>
+
+    <!-- Run find Surface -->
+    <!--node pkg="find_surface" type="find_surface_node" name="findSurface" output="screen"/-->
+
+    <!-- Run movebase -->
+    <include file="$(find borg_2dnav)/borg_global_navigation.launch" />
+
+</launch>
+

@@ -1,0 +1,6 @@
+<launch>
+<node name="arm_controller" pkg="mico_rviz" type="arm_controller" respawn="false" output="screen">
+  </node>
+  <node name="user_subscriber" pkg="mico_rviz" type="user_subscriber" respawn="false" output="screen">
+  </node>
+ </launch>

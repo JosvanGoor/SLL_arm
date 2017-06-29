@@ -1,0 +1,71 @@
+<launch>
+
+  <!-- By default, we do not start a database (it can be large) -->
+  <arg name="db" default="false" />
+
+  <!-- By default, we are not in debug mode -->
+  <arg name="debug" default="false" />
+  
+  <!--remap from="/jaco/joint_states" to="/joint_states" /-->
+
+  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+  <include file="$(find sudo_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+<!-- If needed, broadcast static tf for robot root -->
+    <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 base_link base_footprint 100" />
+  
+  <!-- Loads ros controllers parameters for gazebo-->
+  <!--rosparam file="$(find sudo_description)/urdf/sudo_control.yaml" command="load"/-->
+  
+  <!--node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <remap from="/joint_states" to="/joint_state" />
+  </node-->
+
+  <!-- If needed, broadcast static tf for robot root -->
+    <!--node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 odom base_footprint 100" /-->
+    <!--node pkg="tf" type="static_transform_publisher" name="base_link_to_chassis" args="0.00 0 0.16 0 0 0  base_footprint chassis 100" />
+    <node pkg="tf" type="static_transform_publisher" name="chassis_to_bottom_body_box" args="0.01 0 0.33 0 0 0  chassis bottom_box 100" />-->
+    
+    <!-- Wheel Connections -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_right_wheel" args="0.1 -.17 -0.055 -1.5707 0 0  chassis right_wheel 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_left_wheel" args="0.1 .17 -0.055 1.5707 0 0  chassis left_wheel 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_rear_right_wheel" args="-0.115 -0.17 -0.055 -1.5707 0 0  chassis rear_right_wheel 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_rear_left_wheel" args="-0.115 0.17 -0.055 1.5707 0 0  chassis rear_left_wheel 100" />
+
+    <!--node pkg="tf" type="static_transform_publisher" name="bottom_box_to_mico_base_link" args="0.08 0 0.2475 0 0 0  bottom_box arm_base 100" />-->
+
+    <!-- Bottom kinect -->
+    <node pkg="tf" type="static_transform_publisher" name="bottom_box_to_camera_link" args="0.16 0 1.15 0.2 1.2 0.2  bottom_box camera_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="bottom_box_to_camera2_link" args="0.035 0 1.404 0 0 0  bottom_box camera2_link 100" />
+
+    <!--node pkg="tf" type="static_transform_publisher" name="arm_base_to_mico_base_link" args="0 0 0 0 0 0  arm_base mico_base_link 100" /-->
+  <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+  <include file="$(find sudo_moveit_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>  
+    <arg name="fake_execution" value="false"/>
+    <arg name="info" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+
+  <!-- Run Rviz and load the default config to see the state of the move_group node -->
+  <include file="$(find sudo_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <!-- If database loading was enabled, start mongodb as well -->
+  <include file="$(find sudo_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)"/>
+
+  <param name="robot_description_rsp" textfile="$(find sudo_description)/urdf/complete_model_rsp.urdf"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <remap from="robot_description" to="robot_description_rsp" />
+  </node>
+
+</launch>

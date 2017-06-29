@@ -1,0 +1,39 @@
+#include "objectRecognizer.h"
+
+#include <iostream>
+#include <sys/types.h>
+#include <dirent.h>
+#include <errno.h>
+#include <limits.h>
+#include <time.h>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctime>
+
+#include "../utils.h"
+#include "../planarRemover/planarRemover.h"
+#include "../clusterObjects/clusterObjects.h"
+
+#include <pcl/keypoints/keypoint.h>
+#include <pcl/keypoints/uniform_sampling.h>
+#include <pcl/search/search.h>
+
+#include <boost/accumulators/accumulators.hpp>
+#include <boost/accumulators/statistics/mean.hpp>
+#include <boost/accumulators/statistics/stats.hpp>
+#include <boost/accumulators/statistics/variance.hpp>
+
+#include <jsoncpp/json/json.h>
+#include <borg_pioneer/MemoryReadSrv.h>
+
+using namespace boost::accumulators;
+
+typedef typename Keypoint<Point, int>::PointCloudOut PointCloudOut;
+typedef SHOT352 descriptorType;
+typedef vector<PointCloud<descriptorType>::Ptr > shotData;
+typedef map<string, shotData> shotDB;
+typedef map<string, shotData>::iterator db_it;
+typedef vector<PointCloud<descriptorType>::Ptr>::iterator v_it;

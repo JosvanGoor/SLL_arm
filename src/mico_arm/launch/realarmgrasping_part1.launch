@@ -1,0 +1,6 @@
+<launch>
+  <!--include file="$(find openni2_launch)/launch/openni2.launch"/-->
+  <!--include file="$(find wpi_jaco_wrapper)/launch/arm.launch"/-->
+  <include file="$(find mico_moveit)/launch/demo.launch"/>
+
+</launch>

@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="sudo">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="arm">
+        <joint name="mico_shoulder_yaw_joint" />
+        <joint name="mico_shoulder_pitch_joint" />
+        <joint name="mico_elbow_pitch_joint" />
+        <joint name="mico_elbow_roll_joint" />
+        <joint name="mico_wrist_roll_joint" />
+        <joint name="mico_hand_roll_joint" />
+    </group>
+    <group name="gripper">
+        <link name="mico_finger_1_link" />
+        <link name="mico_finger_2_link" />
+        <link name="mico_finger_3_link" />
+        <link name="mico_hand_link" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="HOME" group="arm">
+        <joint name="mico_elbow_pitch_joint" value="1.0334" />
+        <joint name="mico_elbow_roll_joint" value="2.8023" />
+        <joint name="mico_hand_roll_joint" value="0" />
+        <joint name="mico_shoulder_pitch_joint" value="-1.2649" />
+        <joint name="mico_shoulder_yaw_joint" value="0.205" />
+        <joint name="mico_wrist_roll_joint" value="1.2303" />
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="eef" parent_link="mico_wrist_link" group="gripper" parent_group="arm" />
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="virtual_joint" type="planar" parent_frame="odom" child_link="base_footprint" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="bottom_body_box" link2="chassis" reason="Adjacent" />
+    <disable_collisions link1="bottom_body_box" link2="laser_link" reason="Never" />
+    <disable_collisions link1="bottom_body_box" link2="left_wheel" reason="Never" />
+    <disable_collisions link1="bottom_body_box" link2="mico_base_link" reason="Adjacent" />
+    <disable_collisions link1="bottom_body_box" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="bottom_body_box" link2="mico_shoulder_link" reason="Never" />
+    <disable_collisions link1="bottom_body_box" link2="mico_upper_arm_link" reason="Never" />
+    <disable_collisions link1="bottom_body_box" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="chassis" link2="laser_link" reason="Adjacent" />
+    <disable_collisions link1="chassis" link2="left_wheel" reason="Adjacent" />
+    <disable_collisions link1="chassis" link2="mico_base_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_finger_1_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_finger_2_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_finger_3_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_hand_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_lower_arm_roll_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_shoulder_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_upper_arm_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="mico_wrist_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="right_wheel" reason="Adjacent" />
+    <disable_collisions link1="laser_link" link2="left_wheel" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_base_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_finger_1_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_finger_2_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_finger_3_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_hand_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_lower_arm_roll_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_shoulder_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_upper_arm_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="mico_wrist_link" reason="Never" />
+    <disable_collisions link1="laser_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_base_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_finger_1_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_finger_2_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_finger_3_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_hand_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_lower_arm_roll_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_shoulder_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_upper_arm_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="mico_wrist_link" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_base_link" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="mico_base_link" link2="mico_shoulder_link" reason="Adjacent" />
+    <disable_collisions link1="mico_base_link" link2="mico_upper_arm_link" reason="Never" />
+    <disable_collisions link1="mico_base_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_finger_1_link" link2="mico_finger_2_link" reason="Never" />
+    <disable_collisions link1="mico_finger_1_link" link2="mico_finger_3_link" reason="Never" />
+    <disable_collisions link1="mico_finger_1_link" link2="mico_hand_link" reason="Adjacent" />
+    <disable_collisions link1="mico_finger_1_link" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="mico_finger_1_link" link2="mico_lower_arm_roll_link" reason="Never" />
+    <disable_collisions link1="mico_finger_1_link" link2="mico_wrist_link" reason="Never" />
+    <disable_collisions link1="mico_finger_1_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_finger_2_link" link2="mico_finger_3_link" reason="Never" />
+    <disable_collisions link1="mico_finger_2_link" link2="mico_hand_link" reason="Adjacent" />
+    <disable_collisions link1="mico_finger_2_link" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="mico_finger_2_link" link2="mico_lower_arm_roll_link" reason="Never" />
+    <disable_collisions link1="mico_finger_2_link" link2="mico_wrist_link" reason="Never" />
+    <disable_collisions link1="mico_finger_2_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_finger_3_link" link2="mico_hand_link" reason="Adjacent" />
+    <disable_collisions link1="mico_finger_3_link" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="mico_finger_3_link" link2="mico_lower_arm_roll_link" reason="Never" />
+    <disable_collisions link1="mico_finger_3_link" link2="mico_wrist_link" reason="Never" />
+    <disable_collisions link1="mico_finger_3_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_hand_link" link2="mico_lower_arm_link" reason="Never" />
+    <disable_collisions link1="mico_hand_link" link2="mico_lower_arm_roll_link" reason="Never" />
+    <disable_collisions link1="mico_hand_link" link2="mico_wrist_link" reason="Adjacent" />
+    <disable_collisions link1="mico_hand_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_lower_arm_link" link2="mico_lower_arm_roll_link" reason="Adjacent" />
+    <disable_collisions link1="mico_lower_arm_link" link2="mico_shoulder_link" reason="Never" />
+    <disable_collisions link1="mico_lower_arm_link" link2="mico_upper_arm_link" reason="Adjacent" />
+    <disable_collisions link1="mico_lower_arm_link" link2="mico_wrist_link" reason="Never" />
+    <disable_collisions link1="mico_lower_arm_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_lower_arm_roll_link" link2="mico_wrist_link" reason="Adjacent" />
+    <disable_collisions link1="mico_lower_arm_roll_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_shoulder_link" link2="mico_upper_arm_link" reason="Adjacent" />
+    <disable_collisions link1="mico_shoulder_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_upper_arm_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="mico_wrist_link" link2="right_wheel" reason="Never" />
+</robot>

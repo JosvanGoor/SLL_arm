@@ -1,0 +1,228 @@
+<robot name="sudo" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Top box of Sudo-->
+<link name="top_box">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.35 0.2" />
+  		</geometry>
+		<material name="black">
+	    	<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.04 0.35 0.2" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for top box -->
+<gazebo reference="top_box">
+    <material>Gazebo/FlatBlack</material>
+</gazebo>
+
+<!-- Connection between chassis and bottom rectangular box -->
+<joint name="bar_left_to_top_box" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0 -0.16 0.57"/>
+	<child link="top_box"/>
+	<parent link="bar_left"/>
+</joint>
+
+
+<!-- Bottom Kinect box -->
+<link name="bottom_kinect_box">
+	<inertial>
+        <mass value="0.25"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.09 0.075 0.03" />
+  		</geometry>
+		<material name="black">
+	    	<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.09 0.075 0.03" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for bottom Kinect box -->
+<gazebo reference="bottom_kinect_box">
+    <material>Gazebo/Grey</material>
+</gazebo>
+
+<!-- Connection between chassis and bottom rectangular box -->
+<joint name="top_box_to_bottom_kinect_box" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0.065 0 -0.085"/>
+	<child link="bottom_kinect_box"/>
+	<parent link="top_box"/>
+</joint>
+
+
+<!-- Bottom Kinect -->
+<link name="camera_link">
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	<inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<geometry>
+			<mesh filename="package://sudo_description/models/kinect/meshes/kinect.dae"/>
+		</geometry>
+	</visual>
+	<collision>
+        <geometry>
+            <mesh filename="package://sudo_description/models/kinect/meshes/kinect.dae"/>
+        </geometry>
+    </collision>
+</link>
+
+<!-- Connection between bottom Kinect and bottom box-->
+<joint name="bottom_box_to_camera_link" type="fixed">
+	<origin rpy="0 1.24 0" xyz="0.16 0 1.15"/> <!-- Kinect is placed 2 cm back compared to bottom kinect box -->
+	<child link="camera_link"/>
+	<parent link="bottom_box"/>
+</joint>
+
+<!-- Gazebo bottom Kinect plugin -->
+<gazebo reference="camera_link">
+	<selfCollide>false</selfCollide>
+	<static>true</static>
+	<turnGravityOff>false</turnGravityOff>
+	<sensor type="depth" name="openni_camera_camera">
+		<pose>0 0 0 0 0 0</pose>
+		<always_on>1</always_on>
+		<visualize>true</visualize>
+		<camera>
+			<horizontal_fov>1.047</horizontal_fov>
+			<image>
+				<width>640</width>
+				<height>480</height>
+				<format>R8G8B8</format>
+			</image>
+			<depth_camera></depth_camera>
+			<clip>
+				<near>0.1</near>
+				<far>100</far>
+			</clip>
+		</camera>
+		<plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+			<alwaysOn>true</alwaysOn>
+			<updateRate>10.0</updateRate>
+			<cameraName>camera</cameraName>
+			<frameName>camera_link</frameName>
+			<imageTopicName>rgb/image_raw</imageTopicName>
+			<depthImageTopicName>depth/image_raw</depthImageTopicName>
+			<pointCloudTopicName>depth/points</pointCloudTopicName>
+			<cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+			<depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+			<pointCloudCutoff>0.4</pointCloudCutoff>
+			<hackBaseline>0.07</hackBaseline>
+			<distortionK1>0.0</distortionK1>
+			<distortionK2>0.0</distortionK2>
+			<distortionK3>0.0</distortionK3>
+			<distortionT1>0.0</distortionT1>
+			<distortionT2>0.0</distortionT2>
+			<CxPrime>0.0</CxPrime>
+			<Cx>0.0</Cx>
+			<Cy>0.0</Cy>
+			<focalLength>0.0</focalLength>
+		</plugin>
+	</sensor>
+</gazebo>
+
+
+<!-- Top Kinect -->
+<link name="camera2_link">
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	<inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<geometry>
+			<mesh filename="package://sudo_description/models/kinect/meshes/kinect.dae"/>
+		</geometry>
+	</visual>
+	<collision>
+        <geometry>
+            <mesh filename="package://sudo_description/models/kinect/meshes/kinect.dae"/>
+        </geometry>
+    </collision>
+</link>
+
+<!-- Connection between bottom Kinect and bottom box-->
+<joint name="bottom_box_to_camera2_link" type="fixed">
+	<origin rpy="0 0 0" xyz="0.035 0 1.404"/> <!-- The kinect is placed 5.04 cm higher, because mid of kinect is inside the sensor -->
+	<child link="camera2_link"/>
+	<parent link="bottom_box"/>
+</joint>
+
+<!-- Gazebo bottom Kinect plugin -->
+<gazebo reference="camera2_link">
+	<selfCollide>false</selfCollide>
+	<static>true</static>
+	<turnGravityOff>false</turnGravityOff>
+	<sensor type="depth" name="openni_camera_camera">
+		<pose>0 0 0 0 0 0</pose>
+		<always_on>1</always_on>
+		<visualize>true</visualize>
+		<camera>
+			<horizontal_fov>1.047</horizontal_fov>
+			<image>
+				<width>640</width>
+				<height>480</height>
+				<format>R8G8B8</format>
+			</image>
+			<depth_camera></depth_camera>
+			<clip>
+				<near>0.1</near>
+				<far>100</far>
+			</clip>
+		</camera>
+		<plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+			<alwaysOn>true</alwaysOn>
+			<updateRate>10.0</updateRate>
+			<cameraName>camera2</cameraName>
+			<frameName>camera2_link</frameName>
+			<imageTopicName>rgb/image_raw</imageTopicName>
+			<depthImageTopicName>depth/image_raw</depthImageTopicName>
+			<pointCloudTopicName>depth/points</pointCloudTopicName>
+			<cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+			<depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+			<pointCloudCutoff>0.4</pointCloudCutoff>
+			<hackBaseline>0.07</hackBaseline>
+			<distortionK1>0.0</distortionK1>
+			<distortionK2>0.0</distortionK2>
+			<distortionK3>0.0</distortionK3>
+			<distortionT1>0.0</distortionT1>
+			<distortionT2>0.0</distortionT2>
+			<CxPrime>0.0</CxPrime>
+			<Cx>0.0</Cx>
+			<Cy>0.0</Cy>
+			<focalLength>0.0</focalLength>
+		</plugin>
+	</sensor>
+</gazebo>
+
+</robot>

@@ -1,0 +1,10 @@
+<launch>
+
+  <include file="$(find mico_moveit)/launch/demo2.launch"/>
+  <include file="$(find mico_gazebo)/launch/mico_gazebo2.launch"/>
+  <include file="$(find colorblob)/launch/colorblob.launch"/>
+
+  <node name="mico_arm_move" pkg="mico_arm" type="sweepboard.py" respawn="false" output="screen">
+  </node>
+
+</launch>

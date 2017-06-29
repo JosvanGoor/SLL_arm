@@ -1,0 +1,82 @@
+everything that needs to be installed:
+
+install the ros-hydro-desktop-full from ros.org, follow the install instructions.
+
+install instructions from the howto_start.pdf:
+
+sudo apt-get install python-scipy python-pygame python-opencv
+
+
+goto: http://robots.mobilerobots.com/wiki/ARIA
+download the .tgz ARIA 2.8.1 Other 64/32-bit linux systems.
+
+extract and adjust the Makefile:
+	on line 590 change:
+	$(CXX) -shared -o $(@) $(OFILES)
+
+	to:
+	$(CXX) -shared -o $(@) $(OFILES) -lrt -lpthread -ldl
+
+	then:
+	make
+
+	and:
+	sudo make install
+
+
+###
+
+add to ~/.bashrc: 
+### 
+
+source /opt/ros/hydro/setup.bash
+
+export BORG=$HOME/sudo
+source $BORG/ros/catkin_ws/devel/setup.bash
+export PYTHONPATH=$BORG/brain/src:$PYTHONPATH
+export ROS_PACKAGE_PATH=$BORG/ros:$ROS_PACKAGE_PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/Aria/lib
+
+
+#export ROS_PARALLEL_JOBS=-j2
+
+#export ROS_MASTER_URI=http://192.168.1.1:11311
+
+### end
+
+-after adding this to the bashrc file, either type: source ~/.bashrc in every terminal window that is open, or restart your terminal for these things to take effect.
+
+- The ROS_PARALLEL_JOBS tells the compiler how many cores/threads may be used at max when using catkin_make, incase of some processors using all cores to 100% will be slower then just to use only a couple of proccessors. So if your system freezes up while compiling try and uncomment the export and set the number of cores catkin may use.
+
+- The ROS_MASTER_URI is used for ros-over-network. More on this later. 
+
+
+install extra packages:
+
+libjsoncpp0 libjsoncpp-dev ros-hydro-openni-camera ros-hydro-openni-launch ros-hydro-openni-tracker ros-hydro-ros-control ros-hydro-ros-controllers 
+ros-hydro-moveit-full ros-hydro-gazebo-ros-control
+
+
+
+# get git repos.
+git checkout iranopen
+
+goto: 
+/sudo/ros/catkin_ws
+
+first make the borg_pioneer:
+catkin_make --pkg borg_pioneer
+
+then make all the packages:
+catkin_make
+
+-restart the terminal or source ~/.bashrc,  because now catkin_ws/devel/setup.bash has been created and pointing to the catkin_ws packages.
+
+
+
+
+
+
+	
+   
+

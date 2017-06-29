@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find mico_moveit_config_custom)/launch/demo.launch"/>
+
+  <node name="move_group_interface_tutorial_arm" pkg="moveit_tutorials" type="move_group_interface_tutorial_arm" respawn="false" output="screen">
+  </node>
+
+</launch>

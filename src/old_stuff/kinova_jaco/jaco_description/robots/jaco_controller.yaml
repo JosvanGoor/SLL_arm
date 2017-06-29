@@ -1,0 +1,168 @@
+# PID JointPositionController parameters for the simulated 
+# Kinova Jaco robot arm. 
+#
+# 29.08.12 - new file
+#
+# Note: the parameters for the cartesian and trajectory controllers
+# are not yet tested nor tuned.
+#
+# (C) 2012 fnh, hendrich@informatik.uni-hamburg.de
+#
+jaco_shoulder_yaw_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_shoulder_yaw_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_shoulder_pitch_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_shoulder_pitch_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_elbow_pitch_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_elbow_pitch_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_elbow_roll_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_elbow_roll_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_wrist_roll_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_wrist_roll_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_hand_roll_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_hand_roll_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_finger_1_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_finger_1_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_finger_2_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_finger_2_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.01
+
+jaco_finger_3_joint_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: jaco_finger_3_joint
+  pid:
+    p: 100000.0
+    i: 20.0
+    d: 1.0
+    i_clamp: 2.0
+    deadband: 0.001
+
+
+# not sure what the best thing to is here... perhaps adding an extra
+# link in the URDF for a virtual grasp point inside the fingers?
+# For now, we ask ROS to control jaco_hand_link, aka T6
+#
+jaco_cartesian_pose_controller:
+  type: robot_mechanism_controllers/CartesianPoseController
+  root_name: jaco
+  tip_name: jaco_hand_link
+  fb_trans:
+    p: 20.0
+    i: 0.5
+    d: 0.0
+    i_clamp: 1.0
+  fb_rot:
+    p: 0.5
+    i: 0.1
+    d: 0.0
+    i_clamp: 0.2
+
+
+
+jaco_joint_trajectory_controller:
+  type: robot_mechanism_controllers/JointSplineTrajectoryController
+  joints:
+    - jaco_shoulder_yaw_joint
+    - jaco_shoulder_pitch_joint
+    - jaco_elbow_pitch_joint
+    - jaco_elbow_roll_joint
+    - jaco_wrist_roll_joint
+    - jaco_hand_roll_joint
+  gains:
+    jaco_shoulder_yaw_joint: {p: 10000.0, d: 30.0}
+    jaco_shoulder_pitch_joint: {p: 10000.0, d: 30.0}
+    jaco_elbow_pitch_joint: {p: 10000.0, d: 30.0}
+    jaco_elbow_roll_joint: {p: 10000.0, d: 30.0}
+    jaco_wrist_roll_joint: {p: 10000.0, d: 30.0}
+    jaco_hand_roll_joint: {p: 10000.0, d: 30.0}
+
+
+
+jaco_joint_trajectory_action_controller:
+  type: "robot_mechanism_controllers/JointTrajectoryActionController"
+  joints:
+    - jaco_shoulder_yaw_joint
+    - jaco_shoulder_pitch_joint
+    - jaco_elbow_pitch_joint
+    - jaco_elbow_roll_joint
+    - jaco_wrist_roll_joint
+    - jaco_hand_roll_joint
+  gains:
+    jaco_shoulder_yaw_joint: {p: 10000.0, d: 30.0, i: 20.0, i_clamp: 4.0}
+    jaco_shoulder_pitch_joint: {p: 10000.0, d: 30.0, i: 20.0, i_clamp: 4.0}
+    jaco_elbow_pitch_joint: {p: 10000.0, d: 30.0, i: 20.0, i_clamp: 4.0}
+    jaco_elbow_roll_joint: {p: 10000.0, d: 30.0, i: 20.0, i_clamp: 4.0}
+    jaco_wrist_roll_joint: {p: 10000.0, d: 30.0, i: 20.0, i_clamp: 4.0}
+    jaco_hand_roll_joint: {p: 10000.0, d: 30.0, i: 20.0, i_clamp: 4.0}
+  joint_trajectory_action_node:
+    joints:
+      - jaco_shoulder_yaw_joint
+      - jaco_shoulder_pitch_joint
+      - jaco_elbow_pitch_joint
+      - jaco_elbow_roll_joint
+      - jaco_wrist_roll_joint
+      - jaco_hand_roll_joint
+    constraints:
+      goal_time: 0.6
+

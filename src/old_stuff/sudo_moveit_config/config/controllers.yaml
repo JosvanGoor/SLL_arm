@@ -1,0 +1,14 @@
+controller_list:
+  - name: /mico_arm_driver
+    action_ns: trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - mico_shoulder_yaw_joint
+      - mico_shoulder_pitch_joint
+      - mico_elbow_pitch_joint
+      - mico_elbow_roll_joint
+      - mico_wrist_roll_joint
+      - mico_hand_roll_joint
+     
+

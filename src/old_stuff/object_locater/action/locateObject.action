@@ -1,0 +1,9 @@
+#Define the goal
+bool startLocating
+bool findEmptySpace
+---
+#Define the results
+objectLocation object
+---
+#Define the feedback message
+objectLocation object

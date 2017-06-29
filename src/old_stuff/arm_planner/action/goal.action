@@ -1,0 +1,12 @@
+# Goal
+float32 x
+float32 y
+float32 z
+bool manObjTest
+bool first
+---
+# Result
+bool correct
+---
+# Feedback
+bool correct

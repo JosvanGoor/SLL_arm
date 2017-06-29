@@ -1,0 +1,9 @@
+<launch>
+	
+	<node pkg="borg_moveit_interface" type="moveit_interface_node" name="moveit_interface_node" output="screen">
+		<param name="group_name" type="string" value="mico_arm"/> ject
+        <param name="joint_state_topic" type="string" value="/sudo/joint_states"/>
+        <param name="trajectory_result_topic" type="string" value="/sudo/mico_joint_trajectory_action_controller/follow_joint_trajectory/result"/>
+	</node>
+
+</launch>

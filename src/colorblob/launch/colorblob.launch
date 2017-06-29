@@ -1,0 +1,36 @@
+<launch>
+	<node name="colorblob" pkg="colorblob" type="colorblob_node" output="screen" >
+		<param name="image_topic" value="camera/rgb/image_raw" />
+		<param name="visual_mode" value="true" />
+		
+		<param name="blue_hue_upper" value="255" />
+		<param name="blue_hue_lower" value="0" />
+		<param name="blue_saturation_upper" value="145" />
+		<param name="blue_saturation_lower" value="30" />
+		<param name="blue_value_upper" value="70" />
+		<param name="blue_value_lower" value="0"/>
+		
+		<param name="yellow_hue_upper" value="0" />
+		<param name="yellow_hue_lower" value="0" />
+		<param name="yellow_saturation_upper" value="0" />
+		<param name="yellow_saturation_lower" value="0" />
+		<param name="yellow_value_upper" value="0" />
+		<param name="yellow_value_lower" value="0"/>
+
+		<param name="red_hue_upper" value="255" />
+		<param name="red_hue_lower" value="0" />
+		<param name="red_saturation_upper" value="255" />
+		<param name="red_saturation_lower" value="100" />
+		<param name="red_value_upper" value="255" />
+		<param name="red_value_lower" value="170"/>
+		
+		<param name="def_hue_upper" value="0" />
+		<param name="def_hue_lower" value="0" />
+		<param name="def_saturation_upper" value="0" />
+		<param name="def_saturation_lower" value="0" />
+		<param name="def_value_upper" value="0" />
+		<param name="def_value_lower" value="0"/>
+	</node>
+</launch>
+
+

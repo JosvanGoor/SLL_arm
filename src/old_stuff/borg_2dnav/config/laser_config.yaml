@@ -1,0 +1,7 @@
+scan_filter_chain:
+- name: footprint_filter
+  type: LaserScanFootprintFilter
+  params:
+    inscribed_radius: 0.250
+#- name: interpolation
+#  type: InterpolationFilter

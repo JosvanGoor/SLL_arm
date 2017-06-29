@@ -1,0 +1,70 @@
+
+<robot name="mico_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <property name="M_PI" value="3.1415926535897931"/>
+    <!-- Metal arm base + little metal bar on which arm is attached -->
+    <link name="metal_arm_base">
+	    <origin rpy="0 0 0" xyz="-0 0 0"/>
+	    <inertial>
+            <mass value="2"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        </inertial>
+	    <visual name="visual">
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
+		    <geometry>
+        		<mesh filename="package://alice_description/models/box.dae" scale="0.15 0.2 0.035" />
+      		</geometry>
+		    <material name="black">
+	        	<color rgba="0 0 0 1.0"/>
+		    </material>
+	    </visual>
+	    <collision>
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
+      		<geometry>
+        		<mesh filename="package://alice_description/models/box.dae" scale="0.15 0.2 0.035" />
+      		</geometry>
+	    </collision>
+    </link>
+
+    <!-- Gazebo color plugin for metal arm base -->
+    <gazebo reference="metal_arm_base">
+        <material>Gazebo/Black</material>
+    </gazebo>   
+
+
+    <!-- The base joint & link -->
+      <joint name="mico_base_joint" type="fixed">
+        <parent link="metal_arm_base"/>
+        <child link="mico_base_link"/>
+      </joint>
+
+      <link name="mico_base_link">
+        <inertial> <!-- fnh -->
+          <origin xyz="0 0 0" />
+          <mass value="1.0" />
+          <inertia  ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+        </inertial>
+        <visual>
+        <material name="JacoGrey" />
+          <origin xyz="0 0 0.075" rpy="0 0 ${M_PI/2}"/>
+          <geometry>
+            <mesh filename="package://mico_gazebo/meshes/jaco_base_joint.dae"/>
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 0 0.075" rpy="0 0 ${M_PI/2}"/>
+          <geometry>
+            <mesh filename="package://mico_gazebo/meshes/jaco_base_joint.dae"/>
+          </geometry>
+        </collision>
+      </link>
+      <gazebo reference="mico_base_link"> <!-- fnh -->
+        <material>Gazebo/Grey</material>
+        <turnGravityOff>false</turnGravityOff>
+        <selfCollide>true</selfCollide>
+        <mu1>100.0</mu1>
+        <mu2>100.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>1.0</kd>
+      </gazebo>
+</robot>

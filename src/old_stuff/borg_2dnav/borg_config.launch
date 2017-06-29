@@ -1,0 +1,33 @@
+<launch>
+	
+	<!-- Run pioneercontroller to control the pioneer -->
+    <!--node pkg="pioneercontroller" type="pioneercontroller" name="pioneercontroller" /-->
+   
+	
+	<!-- Run kinect -->
+	<include file="$(find borg_2dnav)/openni.launch" />
+    <!--include file="$(find borg_2dnav)/openni_second.launch" /-->
+	
+	<!-- Run BORG point cloud transform -->
+    <node pkg="borg_pointcloud" type="transform" name="pointcloud_transform" respawn="true">
+        <param name="x_min" type="double" value="0.33" />
+        <param name="remove_noise" type="bool" value="False" />
+        <param name="input_topic" type="string" value="camera/depth_registered/points" />
+        <param name="output_topic" type="string" value="voxel_grid/output" />
+    </node>
+
+	<!-- static transform -->
+	<!-- this transform works better with grasping... y offset is the same now -->
+	<!--node pkg="tf" type="static_transform_publisher" name="bottom_box_to_camera_link" args="0.16 -0.04 1.15 0.2 1.2 0.2  bottom_box camera_link 100" /-->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera_link" args="0.16 -0.04 1.64 0.2 1.2 0.2  base_link camera_link 100" />
+    <!--node pkg="tf" type="static_transform_publisher" name="base_link_to_camera2_link" args="0.07 0 1.78 0 0.33 0  base_link camera2_link 100" /-->    	
+
+	<node pkg="sicktoolbox_wrapper" type="sicklms" name="sicklms_node" output="screen">
+		<param name="port" type="string" value="/home/borg/sudo/brain/dev/laser" />
+		<param name="baud" type="int" value="500000" />
+	</node>
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="-0.22 0 0.20 3.14 0 0  base_link laser 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="-0.08 0 0 0 0 0  base_footprint base_link 100" />
+</launch>
+

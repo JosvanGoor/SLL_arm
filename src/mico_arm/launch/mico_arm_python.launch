@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find mico_arm)/launch/demo.launch"/>
+
+  <node name="mico_arm_python" pkg="mico_arm" type="armmove2.py" respawn="false" output="screen">
+  </node>
+
+</launch>

@@ -1,0 +1,8 @@
+float32 x
+float32 y
+float32 z
+bool grab
+string name
+---
+int32 result
+---

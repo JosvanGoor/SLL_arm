@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<robot xmlns:xi="http://www.w3.org/2001/XInclude"
+        xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz"
+        xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model"
+        xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+        xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body"
+        xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom"
+        xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint"
+        xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+        xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering"
+        xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable"
+        xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
+        xmlns:xacro="http://ros.org/wiki/xacro" name="alice">
+
+	<xacro:include filename="$(find mico_description)/urdf/mico_arm.urdf.xacro" />
+
+
+
+<!-- Wooden arm base -->
+<link name="wooden_arm_base">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://alice_description/models/box.dae" scale="0.17 0.33 0.02" />
+  		</geometry>
+		<material name="black">
+	    	<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://alice_description/models/box.dae" scale="0.17 0.33 0.02" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for wooden arm base -->
+<gazebo reference="wooden_arm_base">
+    <material>Gazebo/Wood</material>
+</gazebo>
+
+<!-- Connection between bottom box and wooden arm base -->
+<joint name="bottom_box_to_wooden_arm_base" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0.205 0.02 0.15"/>
+	<child link="wooden_arm_base"/>
+	<parent link="bottom_box"/>
+</joint>
+
+
+<!-- Metal arm base + little metal bar on which arm is attached -->
+<link name="metal_arm_base">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="2"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://alice_description/models/box.dae" scale="0.15 0.2 0.035" />
+  		</geometry>
+		<material name="black">
+	    	<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://alice_description/models/box.dae" scale="0.15 0.2 0.035" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for metal arm base -->
+<gazebo reference="metal_arm_base">
+    <material>Gazebo/Black</material>
+</gazebo>
+
+<!-- Connection between wooden arm base and metal arm base -->
+<joint name="wooden_arm_base_to_metal_arm_base" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0.01 0 0.0275"/>
+	<child link="metal_arm_base"/>
+	<parent link="wooden_arm_base"/>
+</joint>
+
+
+<link name="arm_base">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="0"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+</link>
+
+<joint name="metal_arm_base_to_arm_base" type="fixed">
+	<origin rpy=" 0 0 1.57" xyz="0 0 0.0775"/> 
+	<child link="arm_base"/>
+	<parent link="metal_arm_base"/>
+</joint>
+
+
+<!-- Connection between metal arm base and mico arm -->
+<xacro:mico_arm parent="arm_base" xyz="0 0 0" rpy="0 0 0"/>
+
+<gazebo>
+  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <robotNamespace>alice</robotNamespace>
+  </plugin>
+</gazebo>
+
+</robot>

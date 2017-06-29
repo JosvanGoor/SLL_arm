@@ -1,0 +1,19 @@
+controller_list:
+  - name: "/mico_arm"
+    # action_ns: smooth_arm_controller/trajectory 
+    action_ns: joint_velocity_controller/trajectory
+    type: FollowJointTrajectory
+    joints: 
+      - mico_joint_1
+      - mico_joint_2
+      - mico_joint_3
+      - mico_joint_4
+      - mico_joint_5
+      - mico_joint_6
+  - name: "/mico_hand"
+    # action_ns: smooth_arm_controller/trajectory 
+    action_ns: /fingers_controller/gripper
+    type: GripperCommand
+    joints: 
+      - mico_joint_finger_1
+      - mico_joint_finger_2

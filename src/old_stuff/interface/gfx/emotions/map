@@ -1,0 +1,10 @@
+# Background sprite - emotions are drawn on top of this
+0	base.png
+
+# emotions: background[,blink]
+1	neutral.png,neutral_blink.png
+2	focused.png,focused_blink.png
+3	happy.png,happy_blink.png
+4	sad.png,sad_blink.png
+5	confused.png,confused_blink.png
+6	angry.png,angry_blink.png

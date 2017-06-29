@@ -1,0 +1,35 @@
+<launch>
+	<!-- Run config for p2os -->
+	<include file="$(find borg_2dnav)/borg_config.launch" />
+
+	<!-- Run the map server -->
+	<node name="map_server" pkg="map_server" type="map_server" args="/home/borg/sudo/ros/maps/lab-arena.yaml"/>
+	
+	<!--- Run AMCL -->
+	<node pkg="amcl" type="amcl" name="amcl" output="screen">
+		<param name="base_frame_id" value="base_footprint"/>
+		<param name="kld_err" value="0.05"/>
+		<param name="kld_z" value="0.99"/>
+		<param name="gui_publish_rate" value="10.0"/>
+		<param name="recovery_alpha_slow" value="0.001"/>
+		<param name="recovery_alpha_fast" value="0.1"/>
+		<param name="odom_alpha1" value="0.2"/>
+		<param name="odom_alpha2" value="0.2"/>
+		<param name="odom_alpha3" value="0.2"/>
+		<param name="odom_alpha4" value="0.2"/>
+	</node>
+
+	<!-- Run move_base -->
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" clear_params="true" output="screen">
+		<rosparam file="$(find borg_2dnav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find borg_2dnav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find borg_2dnav)/config/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find borg_2dnav)/config/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find borg_2dnav)/config/base_local_planner_params.yaml" command="load" />
+		<param name="controller_frequency" value="20" />
+		<param name="shutdown_costmaps" value="false" />
+		<param name="clearing_rotation_allowed" value="false" />
+		<param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>	
+	</node>
+</launch>
+

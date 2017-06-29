@@ -1,0 +1,20 @@
+<launch>
+
+  <!-- If needed, broadcast static tf for robot root -->
+    <node pkg="tf" type="static_transform_publisher" name="chassis_to_bottom_body_box" args="0.01 0 0.33 0 0 0  chassis bottom_box 100" />
+    
+
+    <!-- Bottom kinect -->
+    <!--node pkg="tf" type="static_transform_publisher" name="bottom_box_to_camera_link" args="0.16 -0.04 1.15 0.2 1.2 0.2  bottom_box camera_link 100" /-->
+
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera_link" args="0.20 0.03 1.67 0.2 1.2 0.2  base_link camera_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link" args="-0.08 0 0 0 0 0  base_footprint base_link 100" />
+
+  <param name="robot_description_rsp" textfile="$(find sudo_description)/urdf/complete_model_rsp.urdf"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <remap from="robot_description" to="robot_description_rsp" />
+  </node>
+
+</launch>

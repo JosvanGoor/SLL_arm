@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+<robot name="sudo" xmlns:xacro="http://www.ros.org/wiki/xacro"
+                   xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+                   xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+    <!-- Pioneer 2 Chassis-->
+    <link name="chassis">
+      <origin xyz="0 0 0.16" rpy="0 0 0"/>
+      <visual name="visual">
+        <origin xyz="0 0 0.04" rpy="0 0 0"/>
+        <geometry>
+	  <mesh filename="package://sudo_description/models/pioneer2dx/meshes/chassis.dae"/>
+        </geometry>
+      </visual>
+      <visual name="castor_visual">
+        <origin xyz="-0.200 0 -0.12" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="0.04"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.04"/>
+        <geometry>
+            <mesh filename="package://sudo_description/models/pioneer2dx/meshes/chassis.dae"/>
+        </geometry>
+    </collision>
+    </link>
+    <!-- Bottom cube of Sudo-->
+    <link name="bottom_body_box">
+      <visual name="visual">
+        <geometry>
+          <box size="0.315 0.38 0.42"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0"/>
+        </material>
+      </visual> 
+      <collision>
+    <geometry>
+        <box size="0.315 0.38 0.42"/>
+      </geometry>
+    </collision>
+    </link>
+    <!-- Top bar left of sudo-->   
+    <link name="top_bar_left">
+      <origin xyz="0.04 0.165 1" rpy="0 0 0"/>
+      <visual name="visual">
+        <geometry>
+          <box size="0.025 0.025 0.9"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0"/>
+        </material>
+      </visual>
+      <collision>
+      <geometry>
+        <box size="0.025 0.025 0.9"/>
+      </geometry>
+    </collision>
+    </link>
+     <!-- Top bar right of sudo-->
+    <link name="top_bar_right">
+      <origin xyz="0.04 -0.165 1" rpy="0 0 0"/>
+      <visual name="visual">
+        <geometry>
+          <box size="0.025 0.025 0.9"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0"/>
+        </material>
+      </visual> 
+      <collision>
+      <geometry>
+        <box size="0.025 0.025 0.9"/>
+      </geometry>
+    </collision>
+    </link>
+     <!-- Top part of sudo-->
+    <link name="top_body_box">
+      <origin xyz="0.04 0 1.7" rpy="0 0 0"/>
+      <visual name="visual">
+        <geometry>
+          <box size="0.05 0.377 0.23"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0"/>
+        </material>
+      </visual> 
+      <collision>
+      <geometry>
+        <box size="0.05 0.377 0.23"/>
+      </geometry>
+    </collision>
+    </link>
+    <!-- Small webcam that Amir uses for Navigation-->
+    <link name="webcam_link">
+      <origin xyz="0.2 0 0.77" rpy="0 0 0"/>
+      <visual name="visual">
+        <geometry>
+          <box size="0.029 0.068 0.040"/>
+        </geometry>
+      </visual>
+    </link>
+    <!-- The link for bottom kinect-->
+    <link name="camera_link">
+      <origin xyz="0.2 0 1.62" rpy="0 1.24 0"/>
+      <visual name="visual">
+        <geometry>
+	  <mesh filename="package://sudo_description/models/kinect/meshes/kinect.dae"/>
+        </geometry>
+      </visual>
+    </link>
+    <!-- The link for top kinect-->
+    <link name="camera2_link">
+      <origin xyz="0.07 0 1.85" rpy="0 0.33 0"/>
+      <visual name="visual">
+        <geometry>
+          <mesh filename="package://sudo_description/models/kinect/meshes/kinect.dae"/>
+        </geometry>
+      </visual>
+    </link>
+    <!-- The link for sick laser. The used model is actually hokoyu-->
+    <link name="laser_link">
+      <origin xyz="-0.2 0 0.3" rpy="0 0 3.14"/>
+      <visual name="visual">
+        <geometry>
+          <mesh filename="package://sudo_description/models/hokuyo/meshes/hokuyo.dae"/>
+        </geometry>
+      </visual>
+    </link>
+    
+    <link name="right_wheel">
+      <origin xyz="0.1 -0.17 0.11" rpy="1.5707 1.5707 0"/>
+
+      <visual name="visual">
+        <geometry>
+          <cylinder radius = "0.11" length = "0.05"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0"/>
+        </material>
+      </visual>
+      <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.11"/>
+      </geometry>
+    </collision>
+    </link>
+    
+    <link name="left_wheel">
+      <origin xyz="0.1 .17 0.11 0" rpy="1.5707 1.5707 0"/>
+
+      <visual name="visual">
+        <geometry>
+          <cylinder radius = "0.11" length = "0.05"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0"/>
+        </material>
+      </visual>
+      <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.11"/>
+      </geometry>
+    </collision>
+    </link>
+    
+    <controller:diffdrive_plugin name="differential_drive_controller" plugin="libdiffdrive_plugin.so">
+      <alwaysOn>true</alwaysOn>
+      <update>100</update>
+      <updateRate>100.0</updateRate>
+      <leftJoint>left_wheel_hinge</leftJoint>
+      <rightJoint>right_wheel_hinge</rightJoint>
+      <wheelSeparation>0.34</wheelSeparation>
+      <wheelDiameter>0.11</wheelDiameter>
+      <torque>5</torque>
+      <interface:position name="position_iface_0"/>
+      <robotNamespace>/</robotNamespace>
+      <topicName>cmd_vel</topicName>
+    </controller:diffdrive_plugin>
+    
+    <joint type="continuous" name="left_wheel_hinge">
+      <origin xyz="0.1 0.17 -0.03" rpy="1.5707 0 0"/>
+      <child link="left_wheel"/>
+      <parent link="chassis"/>
+      
+      <axis xyz ="0 1 0"/>
+      <limit effort="100" velocity="100"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+
+    </joint>
+    
+    <joint type="continuous" name="right_wheel_hinge">
+      <origin xyz="0.1 -0.17 -0.03" rpy="1.5707 0 0"/>
+      <child link="right_wheel"/>
+      <parent link="chassis"/>
+      <axis xyz=" 0 1 0"/>
+      <limit effort="100" velocity="100"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+
+    </joint>
+    
+    <!-- Connection between chassis and bottom rectangular box-->
+    <joint type="fixed" name="chassis_to_bottom">
+      <origin xyz="0 0 0.315" rpy=" 0 0 0"/>
+      <child link="bottom_body_box"/>
+      <parent link="chassis"/>
+    </joint>
+    <!-- Connection between chassis and laser-->
+    <joint type="fixed" name="laser_to_chassis">
+      <origin xyz="-0.2 0 0.15 " rpy="0 0 3.14"/>
+      <child link="laser_link"/>
+      <parent link="chassis"/>
+    </joint>
+    
+    <!-- Connection between top bar left and bottom rectangular boxes-->
+    <joint type="fixed" name="bottom_to_bar_left">
+      <origin xyz="0 0.177 0.66" rpy="0 0 0"/>
+      <child link="top_bar_left"/>
+      <parent link="bottom_body_box"/>
+    </joint>
+    
+    <!-- Connection between top bar right and bottom rectangular boxes-->
+    <joint type="fixed" name="bottom_to_bar_right">
+      <origin xyz="0 -0.177 0.66" rpy="0 0 0"/>
+      <child link="top_bar_right"/>
+      <parent link="bottom_body_box"/>
+    </joint>
+    
+    <!-- Connection between top and bottom rectangular boxes-->
+    <joint type="fixed" name="bar_left_to_top">
+      <origin xyz="0 -0.178 0.565" rpy="0 0 0"/>
+      <child link="top_body_box"/>
+      <parent link="top_bar_left"/>
+    </joint>
+    
+    <!-- Connection between webcam and bottom rectangular box-->
+    <joint type="fixed" name="bottom_to_webcam">
+      <origin xyz="0.2 0 0.21" rpy="0 0 0"/>
+      <child link="webcam_link"/>
+      <parent link="bottom_body_box"/>
+    </joint>
+    
+    <!-- Connection between bottom kinect and top body-->
+    <joint type="fixed" name="bottom_kinect_to_top_body">
+      <origin xyz="0.07 0 1.66" rpy="0 0.33 0"/>
+      <child link="camera_link"/>
+      <parent link="chassis"/>
+    </joint>
+
+    <!-- Connection between top kinect and top body-->
+    <joint type="fixed" name="top_kinect_to_top_body">
+      <origin xyz="0.2 0 1.43" rpy="0 1.24 0"/>
+      <child link="camera2_link"/>
+      <parent link="chassis"/>
+    </joint>
+    
+    <!-- Mico -->
+    <xacro:include filename="$(find jaco_description)/urdf/mico_arm.urdf.xacro" />
+    <xacro:mico_arm_v0 name="mico" parent="bottom_body_box">
+      <origin xyz="0.1 0 0.31" rpy="0 0 1.57"/>
+    </xacro:mico_arm_v0>
+    
+</robot>

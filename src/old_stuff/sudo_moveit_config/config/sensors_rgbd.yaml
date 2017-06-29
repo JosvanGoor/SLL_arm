@@ -1,0 +1,24 @@
+sensors:
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /camera/depth_registered/points
+    max_range: 2.0
+    frame_subsample: 1
+    point_subsample: 1
+    padding_offset: 0.05
+    padding_scale: 1.0
+    filtered_cloud_topic: filtered_cloud
+    self_mask:
+        min_sensor_dist: 0.1
+        self_see_default_padding: 0.05
+        self_see_default_scale: 1.0
+        self_see_links:
+            - name: mico_base_link 
+            - name: mico_shoulder_link
+            - name: mico_upper_arm_link
+            - name: mico_lower_arm_link
+            - name: mico_lower_arm_roll_link
+            - name: mico_wrist_link
+            - name: mico_hand_link
+            - name: mico_finger_1_link
+            - name: mico_finger_2_link
+            - name: bottom_box

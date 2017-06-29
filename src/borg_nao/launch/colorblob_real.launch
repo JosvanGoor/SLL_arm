@@ -1,0 +1,36 @@
+<launch>
+	<node name="colorblob" pkg="borg_nao" type="colorblob_node" output="screen" >
+		<param name="image_topic" value="/NAO/image_bottom" />
+		<param name="visual_mode" value="true" />
+		
+		<param name="red_hue_upper" value="145" />
+		<param name="red_hue_lower" value="95" />
+		<param name="red_saturation_upper" value="255" />
+		<param name="red_saturation_lower" value="205" />
+		<param name="red_value_upper" value="255" />
+		<param name="red_value_lower" value="70"/>
+		
+		<param name="yellow_hue_upper" value="100" />
+		<param name="yellow_hue_lower" value="80" />
+		<param name="yellow_saturation_upper" value="255" />
+		<param name="yellow_saturation_lower" value="140" />
+		<param name="yellow_value_upper" value="255" />
+		<param name="yellow_value_lower" value="140"/>
+
+		<param name="blue_hue_upper" value="30" />
+		<param name="blue_hue_lower" value="10" />
+		<param name="blue_saturation_upper" value="255" />
+		<param name="blue_saturation_lower" value="105" />
+		<param name="blue_value_upper" value="255" />
+		<param name="blue_value_lower" value="60"/>
+		
+		<param name="def_hue_upper" value="255" />
+		<param name="def_hue_lower" value="140" />
+		<param name="def_saturation_upper" value="140" />
+		<param name="def_saturation_lower" value="100" />
+		<param name="def_value_upper" value="130" />
+		<param name="def_value_lower" value="60"/>
+	</node>
+</launch>
+
+

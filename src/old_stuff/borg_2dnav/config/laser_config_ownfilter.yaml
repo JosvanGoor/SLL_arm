@@ -1,0 +1,18 @@
+scan_filter_chain:
+- name: specific_angle_filter
+  type: SpecificAngleFilter
+  params:
+    lower_angle1: 1.29
+    upper_angle1: 1.31
+    lower_angle2: -1.31
+    upper_angle2: -1.29
+#- name: footprint_filter
+#  type: LaserScanFootprintFilter
+#  params:
+#    inscribed_radius: 0.24
+- name: interpolation
+  type: InterpolationFilter
+- name: timestamp_corrector
+  type: TimestampCorrector
+  params:
+    timestamp_offset: -0.2

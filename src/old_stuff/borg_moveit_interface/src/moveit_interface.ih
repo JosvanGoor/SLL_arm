@@ -1,0 +1,33 @@
+#include <moveit_interface/moveit_interface.h>
+
+#include <iostream>
+#include <stdlib.h>
+
+#include <moveit/kinematic_constraints/utils.h>
+
+#include <moveit/robot_model_loader/robot_model_loader.h>
+#include <moveit/planning_scene_monitor/planning_scene_monitor.h>
+#include <moveit/planning_scene_monitor/current_state_monitor.h>
+#include <moveit/planning_pipeline/planning_pipeline.h>
+#include <moveit/planning_scene/planning_scene.h>
+
+#include <moveit_msgs/GetMotionPlan.h>
+#include <moveit_msgs/MoveItErrorCodes.h>
+#include <moveit_msgs/PositionConstraint.h>
+#include <moveit_msgs/GetPositionIK.h>
+#include <shape_msgs/SolidPrimitive.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <moveit/robot_state/conversions.h>
+
+
+
+
+#include <jaco_msgs/Stop.h>
+#include <jaco_msgs/Start.h>
+#include <jaco_msgs/SetFingersPositionActionResult.h>
+#include <jaco_msgs/ArmJointAnglesActionResult.h>
+#include <borg_pioneer/MemorySrv.h>
+#include <borg_pioneer/MemoryReadSrv.h>
+#include <jsoncpp/json/json.h>
+#include <algorithm>
+#include <map>

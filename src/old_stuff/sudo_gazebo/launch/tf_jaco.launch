@@ -1,0 +1,18 @@
+<launch>
+
+    <!-- Positions are taken from the .sdf file, orientations as well but they are tweaked -->
+
+    <!-- Jaco links -->
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_1_to_jaco_base"   args="0 0 0.1535 3.14159 3.14159 0  jaco_base jaco_link_1 10" />
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_2_to_jaco_link_1" args="0 0 -0.1185 1.57079 1.57079 0  jaco_link_1 jaco_link_2 10" />
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_3_to_jaco_link_2" args="0.41 0 0 3.14159 3.14159 0  jaco_link_2 jaco_link_3 10" />
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_4_to_jaco_link_3" args="0.207 0 -0.01125 0 -1.57079 0  jaco_link_3 jaco_link_4 10" />
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_5_to_jaco_link_4" args="0.0343 0 -0.06588 0 2.18858 3.14159  jaco_link_4 jaco_link_5 10" />
+    
+    <!-- Jaco hand and fingers -->
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_hand_to_jaco_link_5" args="0.0343 0 -0.06588 0 2.18858 3.14159  jaco_link_5 jaco_link_hand 10" />
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_finger_1_to_jaco_link_hand" args="-0.03978 0 -0.10071 -1.7983 1.57079 3.14159  jaco_link_hand jaco_link_finger_1 10" />
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_finger_2_to_jaco_link_hand" args="0.03569 -0.0216 -0.10071 -1.6222 1.57079 -0.23615  jaco_link_hand jaco_link_finger_2 10" />
+    <node pkg="tf" type="static_transform_publisher" name="jaco_link_finger_3_to_jaco_link_hand" args="0.03569 0.0216 -0.10071 -1.5161 1.57079 0.23978  jaco_link_hand jaco_link_finger_3 10" />
+
+</launch>

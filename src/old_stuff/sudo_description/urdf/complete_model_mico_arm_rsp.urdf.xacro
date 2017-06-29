@@ -1,0 +1,93 @@
+<robot name="sudo" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Wooden arm base -->
+<link name="wooden_arm_base">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.17 0.33 0.02" />
+  		</geometry>
+		<material name="black">
+	    	<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.17 0.33 0.02" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for wooden arm base -->
+<gazebo reference="wooden_arm_base">
+    <material>Gazebo/Wood</material>
+</gazebo>
+
+<!-- Connection between bottom box and wooden arm base -->
+<joint name="bottom_box_to_wooden_arm_base" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0.07 0 0.22"/>
+	<child link="wooden_arm_base"/>
+	<parent link="bottom_box"/>
+</joint>
+
+
+<!-- Metal arm base + little metal bar on which arm is attached -->
+<link name="metal_arm_base">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="2"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+	<visual name="visual">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.15 0.2 0.035" />
+  		</geometry>
+		<material name="black">
+	    	<color rgba="0 0 0 1.0"/>
+		</material>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+  		<geometry>
+    		<mesh filename="package://sudo_description/models/box.dae" scale="0.15 0.2 0.035" />
+  		</geometry>
+	</collision>
+</link>
+
+<!-- Gazebo color plugin for metal arm base -->
+<gazebo reference="metal_arm_base">
+    <material>Gazebo/Black</material>
+</gazebo>
+
+<!-- Connection between wooden arm base and metal arm base -->
+<joint name="wooden_arm_base_to_metal_arm_base" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0.01 0 0.0275"/>
+	<child link="metal_arm_base"/>
+	<parent link="wooden_arm_base"/>
+</joint>
+
+<link name="arm_base">
+	<origin rpy="0 0 0" xyz="-0 0 0"/>
+	<inertial>
+        <mass value="0"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+</link>
+
+<joint name="metal_arm_base_to_arm_base" type="fixed">
+	<origin rpy=" 0 0 0" xyz="0 0 0.0175"/>
+	<child link="arm_base"/>
+	<parent link="metal_arm_base"/>
+</joint>
+
+</robot>

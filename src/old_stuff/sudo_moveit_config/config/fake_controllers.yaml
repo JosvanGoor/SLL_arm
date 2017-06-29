@@ -1,0 +1,9 @@
+controller_list:
+  - name: fake_mico_arm_controller
+    joints:
+      - mico_shoulder_yaw_joint
+      - mico_shoulder_pitch_joint
+      - mico_elbow_pitch_joint
+      - mico_elbow_roll_joint
+      - mico_wrist_roll_joint
+      - mico_hand_roll_joint

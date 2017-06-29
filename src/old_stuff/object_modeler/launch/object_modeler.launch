@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="object_modeler" type="object_modeler_node" name="object_modeler" output="screen">
+		<param name="save_folder" type="string" value="/home/student/objects" />
+	</node>
+</launch>

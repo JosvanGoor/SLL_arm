@@ -1,0 +1,80 @@
+DWAPlannerROS:
+  acc_lim_theta: 3.2
+  acc_lim_x: 2.5
+  acc_lim_y: 2.5
+  acc_limit_trans: 2.5
+  max_vel_x: 0.2
+  min_vel_x: -0.05 # was -0.1
+  max_vel_y: 0.0
+  min_vel_y: 0.0
+  max_trans_vel: 0.3
+  min_trans_vel: 0.05
+  max_rot_vel: 0.6
+  min_rot_vel: 0.2
+  prune_plan: true
+  sim_time: 5
+  sim_granularity: 0.025
+  goal_distance_bias: 32.0
+  path_distance_bias: 0.01
+  occdist_scale: 20
+  stop_time_buffer: 0.2
+  forward_point_distance: 0.325
+  scaling_speed: 0.25
+  max_scaling_factor: 0.2
+  vx_samples: 10
+  vy_samples: 10
+  vtheta_samples: 30
+  sim_period: 0.2
+  xy_goal_tolerance: 0.2
+  yaw_goal_tolerance: 0.17
+  rot_stopped_vel: 0.01
+  trans_stopped_vel: 0.01
+  latch_xy_goal_tolerance: true
+  penalize_negative_x: true
+  oscillation_reset_dist: 0.1
+
+recovery_behaviors: [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]
+TrajectoryPlannerROS:
+#DWAPlannerROS:
+# Set the acc.eleration limits of the robot - "most important thing"
+  acc_lim_x: 1.0                    # 2.5
+  acc_lim_y: 0                    # 2.5
+  acc_lim_theta: 1.0                # 3.2
+
+# Set the velocity limits of the robot
+  max_vel_x: 0.2                    # 0.5
+  min_vel_x: -0.1                   # 0.1
+  max_vel_theta: 0.4
+  min_in_place_vel_theta: 0.2  # 0.1
+
+# Notice that this velocity is set to be negative. A bit confusing admittedly.
+  escape_vel: -0.05                  # -0.1
+
+# p2os is no holonomic robot.
+  holonomic_robot: false            # true
+
+# ---- Goal tolerance parameters
+  yaw_goal_tolerance: 0.12           # 0.05
+  xy_goal_tolerance: 0.1            # 0.1
+  latch_xy_goal_tolerance: true     # false
+  
+# ---- Foward simulation parameters
+# We'll configure how long and with what granularity we'll forward simulate trajectories  
+  sim_time: 5                     # setting it higher can result in slightly smoother trajectories def:1
+  sim_granularity: 0.025             # 0.025
+  angular_sim_granularity: 0.025     # 0.025
+  vx_samples: 20                    # 3
+  vtheta_samples: 50                # 20
+  controller_frequency: 8          # 20
+#  planner_frequency: 10
+
+# ---- Parameters for scoring trajectories
+  pdist_scale: 0.6           #   will make the robot follow the path more closely (if big) - default: 0.6
+  gdist_scale: 0.8           # default: 0.8
+  occdist_scale: 0.01               # weighting how much controller should avoid obstacles default: 0.01
+#  heading_lookahead: 0.325          # default 0.325m 
+#  heading_scoring: false             # default false
+#  heading_scoring_timestep: 0.1     # default 0.8 sec
+
+
+

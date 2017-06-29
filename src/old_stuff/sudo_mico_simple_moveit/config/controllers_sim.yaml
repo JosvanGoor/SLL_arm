@@ -1,0 +1,26 @@
+controller_list:
+  - name: /sudo/mico_joint_trajectory_action_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - mico_shoulder_yaw_joint
+      - mico_shoulder_pitch_joint
+      - mico_elbow_pitch_joint
+      - mico_elbow_roll_joint
+      - mico_wrist_roll_joint
+      - mico_hand_roll_joint
+
+  - name: /sudo/mico_finger_1_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints: 
+      - mico_finger_1_joint
+
+  - name: /sudo/mico_finger_2_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints: 
+      - mico_finger_2_joint

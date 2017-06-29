@@ -1,0 +1,36 @@
+<launch>
+
+    <!-- Run kinect -->
+	<include file="$(find borg_2dnav)/openni_xtion.launch" />
+    <!-- Uncomment the following when using 2 cameras: -->
+	<include file="$(find borg_2dnav)/openni_second.launch" />
+	
+    <!-- Run BORG transform -->
+    <node pkg="borg_pioneer" type="transform_pioneer" name="transform" />
+
+    <!-- node pkg="pioneercontroller" type="pioneercontroller" name="pioneercontroller" respawn="True" /-->
+
+    <!-- Run Laser node -->
+	<!--node pkg="sicktoolbox_wrapper" type="sicklms" name="sicklms_node"-->
+		<!--param name="port" type="string" value="$(env BORG)/brain/dev/laser" /-->
+		<!--param name="baud" type="int" value="38400" /-->
+	<!--/node-->
+
+    <!-- Run LaserToMemory node -->
+	<node name="LaserToMemory" pkg="laser_to_memory" type="lasertomemory.py"/>
+    
+    <!-- Run Person Detection -->
+    <node pkg="human_recognition" type="HumanDetector.py" name="HumanDetector" respawn="True" output="screen" />
+    <node pkg="human_recognition" type="human_recognition_node" name="HumanSegmenter" output="screen">
+        <param name="publish_cloud" type="bool" value="true" />
+        <param name="camera_topic" type="string" value="camera3/depth_registered/points" />
+        <!-- Uncomment the following when using 2 cameras: -->  
+        <param name="camera_topic2" type="string" value="camera2/depth_registered/points" />
+    </node>
+   
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera3_link" args="0.28 0 0.655 -0.01 0.04 0.01  base_link camera3_link 10" />  
+    <!-- Uncomment the following when using 2 cameras: -->      
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera2_link" args="0.02 0 1.825 0 0.24 0  base_link camera2_link 10" />
+
+</launch>
+

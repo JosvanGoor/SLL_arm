@@ -63,6 +63,7 @@ find_package(catkin REQUIRED COMPONENTS
    FILES
    pixelcount.action
  )
+find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
 
 ## Generate added messages and services with any dependencies listed here
  generate_messages(

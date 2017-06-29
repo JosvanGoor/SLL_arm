@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="obj_valgrind" pkg="object_recognition" type="object_recognition_node" output="screen"/>
+	<param name="input_topic" value="/front_xtion/depth_registered/points" />
+
+</launch>

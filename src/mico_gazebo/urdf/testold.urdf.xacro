@@ -1,0 +1,165 @@
+
+<robot xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz"
+	xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model"
+	xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+	xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body"
+	xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom"
+	xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint"
+	xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+	xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering"
+	xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable"
+	xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
+	xmlns:xacro="http://ros.org/wiki/xacro" name="mico">
+    
+ <xacro:include filename="$(find mico_gazebo)/urdf/mico_arm.urdf.xacro" />
+
+	<link name="root">
+	    <inertial> <!-- fnh -->
+                <origin xyz="0 0 0" />
+                <mass value="10000.0" />
+                <inertia  ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+            </inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size = "0.5 0.5 0.02" />
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size = "0.5 0.5 0.02" />
+			</geometry>
+		</collision>
+	</link>
+
+	<link name="world"/>
+
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="root"/>
+  </joint>
+
+	<xacro:mico_arm parent="root" xyz="0 0 0" rpy="0 0 0" />
+	
+	<!-- Front Xtion -->
+<link name="front_xtion_link">
+	<inertial>
+		<mass value="0.200" />
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<inertia ixx="5.8083e-4" ixy="0" ixz="0" iyy="3.0833e-5" iyz="0" izz="5.9083e-4" />
+	</inertial>
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+    		<mesh filename="package://alice_description/models/box.dae" scale="0.035 0.18 0.025" />
+  		</geometry>
+	</visual>
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+    		<mesh filename="package://alice_description/models/box.dae" scale="0.035 0.18 0.025" />
+  		</geometry>
+	</collision>
+</link>
+
+	<joint name="root_to_front_xtion" type="fixed"> <!-- Connection between top bar and front -->
+	<origin rpy=" 0.0 ${M_PI/8} 0.0" xyz="0.0 0.0 0.75"/>
+	<child link="front_xtion_link"/>
+	<parent link="root"/>
+    </joint>
+    
+    <!-- Gazebo color plugin for xtion -->
+<gazebo reference="front_xtion_link">
+	<selfCollide>false</selfCollide>
+	<static>true</static>
+	<turnGravityOff>false</turnGravityOff>
+	<sensor type="depth" name="front_xtion">
+		<pose>0 0 0 0 0 0</pose>
+		<always_on>1</always_on>
+		<visualize>true</visualize>
+		<camera>
+			<horizontal_fov>1.047</horizontal_fov>
+			<image>
+				<width>320</width>
+				<height>240</height>
+				<format>R8G8B8</format>
+			</image>
+			<depth_camera></depth_camera>
+			<clip>
+				<near>0.1</near>
+				<far>100</far>
+			</clip>
+		</camera>
+		<plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+			<alwaysOn>true</alwaysOn>
+			<updateRate>30.0</updateRate>
+			<cameraName>front_xtion</cameraName>
+			<frameName>front_rgb_optical_link</frameName>
+			<imageTopicName>rgb/image_raw</imageTopicName>
+			<depthImageTopicName>depth/image_raw</depthImageTopicName>
+			<pointCloudTopicName>depth/points</pointCloudTopicName>
+			<cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+			<depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+			<pointCloudCutoff>0.35</pointCloudCutoff>
+			<pointCloudCutoffMax>4.5</pointCloudCutoffMax>
+			<hackBaseline>0.07</hackBaseline>
+			<distortionK1>0.0</distortionK1>
+			<distortionK2>0.0</distortionK2>
+			<distortionK3>0.0</distortionK3>
+			<distortionT1>0.0</distortionT1>
+			<distortionT2>0.0</distortionT2>
+			<CxPrime>0.0</CxPrime>
+			<Cx>0.0</Cx>
+			<Cy>0.0</Cy>
+			<focalLength>0.0</focalLength>
+		</plugin>
+	</sensor>
+</gazebo>
+    
+    <link name="front_rgb_optical_link"/>
+
+    <joint name="front_xtion_to_rgb_optical" type="fixed"> <!-- Connection between top bar and front -->
+	    <origin rpy="${-M_PI/2} 0 ${-M_PI/2}" xyz="0.00 -0.02 0.00"/>
+	    <parent link="front_xtion_link"/>
+	    <child link="front_rgb_optical_link"/>
+    </joint>
+	
+	<gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/mico</robotNamespace>
+     </plugin>
+    </gazebo>
+    
+    
+    <!--gazebo>
+    <plugin name="gazebo_ros_controller_manager" filename="libgazebo_ros_controller_manager.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>1000.0</updateRate>
+    </plugin>
+    </gazebo-->
+    
+    <!--gazebo>
+        <controller:gazebo_ros_controller_manager name="gazebo_ros_controller_manager" plugin="libgazebo_ros_controller_manager.so">
+              <alwaysOn>true</alwaysOn>
+              <updateRate>1000.0</updateRate>
+         </controller:gazebo_ros_controller_manager>
+    </gazebo-->
+     
+	
+  <gazebo>
+      <gripper name="grasper">
+        <grasp_check>
+            <attach_steps>2</attach_steps>
+            <detach_steps>2</detach_steps>
+            <min_contact_count>1</min_contact_count>
+        </grasp_check>
+        <gripper_link>mico_link_finger_1</gripper_link>
+        <gripper_link>mico_link_finger_2</gripper_link>
+        <palm_link>mico_link_hand</palm_link>
+      </gripper>
+  </gazebo>
+      
+</robot>

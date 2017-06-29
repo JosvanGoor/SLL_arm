@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find mico_moveit_config_custom)/launch/demo.launch"/>
+
+  <node name="user_subscriber" pkg="mico_rviz" type="user_subscriber" respawn="false" output="screen">
+  </node>
+
+</launch>

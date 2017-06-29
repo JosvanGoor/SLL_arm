@@ -1,0 +1,7 @@
+<launch>
+	<!-- Run gmapping -->
+    <include file="$(find borg_2dnav)/simulation/slam_gmapping_simulation.launch" />
+
+    <!-- Enable teleoperation via keyboard -->
+    <include file="$(find borg_2dnav)/borg_teleop_keyboard.launch" />
+</launch>

@@ -1,0 +1,16 @@
+<launch>
+
+    <!-- static transform for Camera -->
+    <node pkg="tf" type="static_transform_publisher" name="bottom_box_to_camera_link" args="0.16 0 1.15 -1.57 0 -2.81  bottom_box camera_link 10" />
+    <node pkg="tf" type="static_transform_publisher" name="bottom_box_to_camera2_link" args="0.035 0 1.404 0 0 0  bottom_box camera2_link 10" />
+    
+    
+    <!-- Rear wheels -->
+    <node pkg="tf" type="static_transform_publisher" name="chassis_to_rear_wheel_right" args="-0.115 -0.17 -0.055 -1.5707 0 0 chassis rear_right_wheel 10" />
+    <node pkg="tf" type="static_transform_publisher" name="chassis_to_rear_wheel_left" args="-0.115 0.17 -0.055 -1.5707 0 0 chassis rear_left_wheel 10" />
+
+
+    <!-- Arm base -->
+    <node pkg="tf" type="static_transform_publisher" name="mico_base_link_to_arm_base" args="0 0 -0.075 0 0 0 mico_base_link arm_base 10" />
+
+</launch>

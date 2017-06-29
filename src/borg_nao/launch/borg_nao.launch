@@ -1,0 +1,10 @@
+
+<launch>
+	<node name="borg_nao_video" pkg="borg_nao" type="nao_video.py" output="screen" >
+		<param name="nao_ip" value="10.20.30.189" />
+		<param name="rotate" value="False" />
+		<param name="fps" value="30" />
+		<param name="nao_port" value="9559" />
+	</node>
+</launch>
+

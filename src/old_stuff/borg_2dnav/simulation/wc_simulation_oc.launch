@@ -1,0 +1,48 @@
+<launch>
+    <master auto="start"/>
+    <param name="/use_sim_time" value="true" />
+
+	<!-- Stage -->
+	<node pkg="stage" type="stageros" name="stageros" args="$(find borg_2dnav)/simulation/world/eindhoven_1.world" /> 
+
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(env BORG)/ros/maps/eindhoven_1.yaml"/>
+
+    <!-- Run the local navigation -->
+	<include file="$(find borg_2dnav)/simulation/borg_global_navigation_simulation.launch" />
+	
+	
+	<!-- Run kinect -->
+	<!--include file="$(find openni_launch)/launch/openni.launch"/-->
+	<!--include file="$(find borg_2dnav)/openni_second.launch" /-->
+	
+	<!-- Run kinect data filter -->
+      <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+  <!-- Run a VoxelGrid filter to clean NaNs and downsample the data -->
+  <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+    <remap from="~input" to="/camera/depth/points" />
+    <rosparam>
+      filter_field_name: y
+      filter_limit_min: -2.1
+      filter_limit_max: 0.1
+      filter_limit_negative: False
+      leaf_size: 0.01
+    </rosparam>
+  </node>
+  
+  <!--node pkg="nodelet" type="nodelet" name="cloud_to_scan" args="load pointcloud_to_laserscan/CloudToScan pcl_manager" output="screen">
+    <remap from="cloud" to="/voxel_grid/output" />
+    <remap from="scan" to="cloud_scan" />
+    <param name="output_frame_id" value="camera_link" />
+  </node-->
+  
+	<!-- static transform -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="-0.15 0 0.2 -3.141 0 0  base_link laser 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera_link" args="0.07 0 1.7 0 1.15 0  base_link camera_link 10" /> 
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera2_link" args="0.07 0 1.7 0 0 0  base_link camera2_link 10" />    	
+
+    <node pkg="map_analyzer" type="map_analyzer" name="map_analyzer" />
+    <node pkg="rviz" type="rviz" name="rviz" />
+</launch>
+
